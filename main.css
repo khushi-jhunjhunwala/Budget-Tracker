@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "sfprolight";
+    src: url(./sfprolight.woff) format("woff");
+}
+@font-face {
+    font-family: "sfproultralight";
+    src: url(./sfproultralight.woff) format("woff");
+}
+
+body{
+    margin: 0;
+	background-color: #171717;
+    font-family: 'lato', sans-serif;
+}
+#header{
+    font-size: 40px;
+    text-align: center;
+    font-family: 'sfprolight';
+    background-color: #326cff;
+    color: white;
+    padding: 40px;
+    font-weight: bold;
+}
+#input{
+    color: white;
+    font-size: 17px;
+    text-align: center;
+}
+table {
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+    border-spacing: 0 15px;
+    border-collapse: separate;
+}
+
+th {
+    font-size: 20px;
+    text-align: left;
+	background-color: rgba(113, 113, 113, 0.071);
+    padding: 25px;
+}
+
+tr {
+    background: rgba(34, 34, 34, 0.446);
+}
+
+
+td{
+    font-size: 15px;
+    padding: 15px;
+}
+
+input{
+    background-color: rgba(80, 80, 80, 0.127);
+    border-radius: 10px;
+    border-color: rgba(80, 80, 80, 0.127);
+    color: white;
+    font-size: 15px;
+    padding: 2px;
+    padding-left: 7px;
+}
+
+input:hover{
+    background-color: #326cff;
+}
+
+.mE{
+    color: #326cff;
+    font-weight: bold;
+}
+.total{
+    color: #326cff;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+td:first-child {
+    border-top-left-radius: 15px; 
+    border-bottom-left-radius: 15px;
+}
+td:last-child {
+    border-bottom-right-radius: 15px; 
+    border-top-right-radius: 15px; 
+}
+
+th:first-child {
+    border-top-left-radius: 15px; 
+    border-bottom-left-radius: 15px;
+    
+}
+th:last-child {
+    border-bottom-right-radius: 15px; 
+    border-top-right-radius: 15px; 
+}
+
+#profile{
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    float: right;
+}
+button{
+    background-color: rgba(80, 80, 80, 0.127);
+    border-radius: 10px;
+    border-color: rgba(80, 80, 80, 0.127);
+    color: white;
+    font-size: 14px;
+    padding: 5px;
+    width: 200px;
+}
+button:hover{
+    background-color: #326cff;
+}
+
+#loginBlock{
+    background-color: rgba(34, 34, 34, 0.298);
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    padding: 10px;
+}

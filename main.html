@@ -1,0 +1,395 @@
+<html ng-app="BudgetTrackerApp" ng-controller="BudgetTrackerController">
+    <head>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <title>Budget Tracker</title>
+        <style>
+            @font-face {
+            font-family: "sfprolight";
+            src: url(./sfprolight.woff) format("woff");
+            }
+            @font-face {
+                font-family: "sfproultralight";
+                src: url(./sfproultralight.woff) format("woff");
+            }
+
+            #submit{
+                text-align: center;
+            }
+            body{
+                margin: 0;
+                background-color: #171717;
+                font-family: 'lato', sans-serif;
+            }
+            #header{
+                font-size: 40px;
+                text-align: center;
+                font-family: 'sfprolight';
+                background-color: #326cff;
+                color: white;
+                padding: 40px;
+                font-weight: bold;
+            }
+            #input{
+                color: white;
+                font-size: 17px;
+                text-align: center;
+            }
+            table {
+                color: white;
+                margin-left: auto;
+                margin-right: auto;
+                width: 75%;
+                border-spacing: 0 15px;
+                border-collapse: separate;
+            }
+
+            th {
+                font-size: 20px;
+                text-align: left;
+                background-color: rgba(113, 113, 113, 0.071);
+                padding: 25px;
+            }
+
+            tr {
+                background: rgba(34, 34, 34, 0.446);
+            }
+
+
+            td{
+                font-size: 15px;
+                padding: 15px;
+            }
+
+            input{
+                background-color: rgba(80, 80, 80, 0.127);
+                border-radius: 10px;
+                border-color: rgba(80, 80, 80, 0.127);
+                color: white;
+                font-size: 15px;
+                padding: 2px;
+                padding-left: 7px;
+            }
+
+            input:hover{
+                background-color: #326cff;
+            }
+
+            .mE{
+                color: #326cff;
+                font-weight: bold;
+            }
+            .total{
+                color: #326cff;
+                font-weight: bold;
+                font-size: 20px;
+            }
+
+            td:first-child {
+                border-top-left-radius: 15px; 
+                border-bottom-left-radius: 15px;
+            }
+            td:last-child {
+                border-bottom-right-radius: 15px; 
+                border-top-right-radius: 15px; 
+            }
+
+            th:first-child {
+                border-top-left-radius: 15px; 
+                border-bottom-left-radius: 15px;
+                
+            }
+            th:last-child {
+                border-bottom-right-radius: 15px; 
+                border-top-right-radius: 15px; 
+            }
+
+            #profile{
+                height: 40px;
+                width: 40px;
+                border-radius: 20px;
+                float: right;
+            }
+            button{
+                background-color: rgba(80, 80, 80, 0.127);
+                border-radius: 10px;
+                border-color: rgba(80, 80, 80, 0.127);
+                color: white;
+                font-size: 14px;
+                padding: 5px;
+                width: 200px;
+            }
+            button:hover{
+                background-color: #326cff;
+            }
+
+            #loginBlock{
+                background-color: rgba(34, 34, 34, 0.298);
+                width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+                border-radius: 20px;
+                padding: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <script>
+            var app=angular.module('BudgetTrackerApp',[]);
+            app.controller('BudgetTrackerController', function($scope, $http){
+
+            $http.get("http://127.0.0.1:7006/");
+
+            var x=0;
+            $scope.totalYourExpenses= function(){
+                x=(
+                parseInt($scope.Housing||0)+
+                parseInt($scope.Electricity||0)+
+                parseInt($scope.Shopping||0)+
+                parseInt($scope.Food||0)+
+                parseInt($scope.Books||0)+
+                parseInt($scope.Household||0)+
+                parseInt($scope.Transport||0)+
+                parseInt($scope.Entertain||0)+
+                parseInt($scope.Others||0)+
+                parseInt($scope.Medical||0)
+                )
+                return x;
+            }
+
+            $scope.totalDiff= function(){
+                x=(
+                parseInt($scope.income||0)-(
+                parseInt($scope.Housing||0)+
+                parseInt($scope.Electricity||0)+
+                parseInt($scope.Shopping||0)+
+                parseInt($scope.Food||0)+
+                parseInt($scope.Books||0)+
+                parseInt($scope.Household||0)+
+                parseInt($scope.Transport||0)+
+                parseInt($scope.Entertain||0)+
+                parseInt($scope.Others||0)+
+                parseInt($scope.Medical||0)
+                ))
+                return x;
+            }
+            
+
+            var t=0;
+
+            //Benchmarks
+
+            $scope.ElectricityBench=function()
+            {
+                t=0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.ShoppingBench=function()
+            {
+                t=0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.FoodBench=function()
+            {
+                t=0.2*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.BooksBench=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.HouseholdBench=function()
+            {
+                t=0.2*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.TransportBench=function()
+            {
+                t=0.15*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.EntertainBench=function()
+            {
+                t=0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            $scope.OthersBench=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+            $scope.MedicalBench=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0));
+                return t;
+            }
+
+            //Differences
+            $scope.ElectricityDiff=function()
+            {
+                t=(0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0)))-($scope.Electricity||0);
+                return t;
+            }
+            $scope.ShoppingDiff=function()
+            {
+                t=0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Shopping||0);
+                return t;
+            }
+            $scope.FoodDiff=function()
+            {
+                t=0.2*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Food||0);
+                return t;
+            }
+            $scope.BooksDiff=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Books||0);
+                return t;
+            }
+            $scope.HouseholdDiff=function()
+            {
+                t=0.2*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Household||0);
+                return t;
+            }
+            $scope.TransportDiff=function()
+            {
+                t=0.15*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Transport||0);
+                return t;
+            }
+            $scope.EntertainDiff=function()
+            {
+                t=0.1*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Entertain||0);
+                return t;
+            }
+            $scope.OthersDiff=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Others||0);
+                return t;
+            }
+            $scope.MedicalDiff=function()
+            {
+                t=0.05*(parseInt($scope.income||0)-parseInt($scope.Housing||0))-($scope.Medical||0);
+                return t;
+            }
+        })
+        </script>
+        
+    <div id="header">
+        <span>THE BUDGET TRACKER</span><img id="profile" src="profilePhoto.jpg">
+    </div><br><br><br>
+
+    <div id="input">
+        <form action="" method="POST">
+        <label for="income" style="margin-right: 5px;">Income</label>
+        <input type="number" name="income" id="income" ng-model="income" style="margin-right: 50px;">
+
+        <label for="date" style="margin-right: 5px;">Month</label>
+        <input type="date" name="date" id="month">
+
+    </div><br><br>
+
+    <div>
+        
+        <table>
+
+            <tr>
+                <th>Monthly Expenses</th>
+                <th>Local Benchmark</th> 
+                <th>Your Expenses</th>
+                <th>Saving</th>
+            </tr>
+            
+            <tr>
+              <td class="mE">Housing</td>
+              <td></td> 
+              <td><input type="number" name="Housing" class="Housing" ng-model="Housing"></td>
+              <td></td>
+            </tr>
+
+            <tr>
+                <td class="mE">Electricity</td>
+                <td>{{ElectricityBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Electricity" class="Electricity" ng-model="Electricity"></td>
+                <td>{{ElectricityDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Shopping</td>
+                <td>{{ShoppingBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Shopping" class="Shopping" ng-model="Shopping"></td>
+                <td>{{ShoppingDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Food</td>
+                <td>{{FoodBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Food" class="Food" ng-model="Food"></td>
+                <td>{{FoodDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Books and supplies</td>
+                <td>{{BooksBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Books" class="Books" ng-model="Books"></td>
+                <td>{{BooksDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Household maintenace/cost</td>
+                <td>{{HouseholdBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Household" class="Household" ng-model="Household"></td>
+                <td>{{HouseholdDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Transportation</td>
+                <td>{{TransportBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Transport" class="Transport" ng-model="Transport"></td>
+                <td>{{TransportDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Entertainment</td>
+                <td>{{EntertainBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Entertain" class="Entertain" ng-model="Entertain"></td>
+                <td>{{EntertainDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Medical</td>
+                <td>{{MedicalBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Medical" class="Medical" ng-model="Medical"></td>
+                <td>{{MedicalDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            <tr>
+                <td class="mE">Others</td>
+                <td>{{OthersBench() | currency:"&#8377"}}</td> 
+                <td><input type="number" name="Others" class="Others" ng-model="Others"></td>
+                <td>{{OthersDiff() | currency:"&#8377"}}</td>
+            </tr>
+            
+            <tr>
+                <td class="total">Total:</td>
+                <td class="total">{{income | currency:"&#8377"}}</td>
+                <td class="total">{{totalYourExpenses() | currency:"&#8377"}}</td>
+                <td class="total">{{totalDiff() | currency:"&#8377"}}</td>
+            </tr>
+
+            </table>
+
+            <input type="submit" value="submit" id="submit">
+            </form>
+            <br><br>
+
+            <a style="color: white; text-align: center;"href="http://localhost/data/">Retrieve previous values</a>
+    </div>
+    </body>
+</html>
